@@ -1,0 +1,37 @@
+- hosts:
+  - local
+  vars:
+        nginx:
+            temp_dir: "/tmp/ansible/minikube/nginx/"
+            home_file: "index.html"
+            app_source_url: "https://raw.githubusercontent.com/amit-dali/minikube/master/nginx/{{ nginx.home_file }}"
+            content_volume: "/usr/share/nginx/html"
+            port_mapping: "8080:80"
+            container_name: "hello-world-nginx"
+            image: "nginx"
+  tasks:
+        - name: Create temp dir to hold {{ nginx.home_file }} file
+          file:
+                path: "{{ nginx.temp_dir }}"
+                state: directory
+                force: yes
+                mode: 0755
+        - name: Download {{ nginx.home_file }}
+          get_url:
+                url: "{{ nginx.app_source_url }}"
+                dest: "{{ nginx.temp_dir }}/{{ nginx.home_file }}"
+                force: yes
+                mode: 0755
+        - name: Create nginx container with custom {{ nginx.home_file }}
+           docker_container:
+                name: {{ nginx.container_name }}
+                image: {{ nginx.image }}
+                command: nginx nginx-debug -g 'daemon off;'
+                detach: yes
+                become: yes
+                state: started
+                restart: yes
+                ports:
+                    - "{{ nginx.port_mapping }}"
+                volumes:
+                    - "{{ nginx.temp_dir }}:{{ nginx.content_volume }}:ro"
