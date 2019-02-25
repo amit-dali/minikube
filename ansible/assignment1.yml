@@ -23,7 +23,7 @@
                 force: yes
                 mode: 0755
         - name: Create nginx container with custom {{ nginx.home_file }}
-           docker_container:
+          docker_container:
                 name: {{ nginx.container_name }}
                 image: {{ nginx.image }}
                 command: nginx nginx-debug -g 'daemon off;'
