@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: backbase
+  labels:
+    name: nginx-deployment
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+        labels: 
+          name: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: hello-world-nginx
+        command: ["nginx -g 'daemon off;'"]
+        volumeMounts:
+        - name: webcontent
+          mountPath: /usr/share/nginx/html
+        ports:
+        - containerPort:  8080
+          name:  port-8080-tcp
+        livenessProbe:
+          httpGet:
+            path: /index.html
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl
+          name: webcontent
+      restartPolicy: Always
