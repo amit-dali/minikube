@@ -1,37 +1,123 @@
 - hosts:
   - local
   vars:
-        nginx:
-            temp_dir: "/tmp/ansible/minikube/nginx/"
-            home_file: "index.html"
-            app_source_url: "https://raw.githubusercontent.com/amit-dali/minikube/master/nginx/{{ nginx.home_file }}"
-            content_volume: "/usr/share/nginx/html"
-            port_mapping: "8080:80"
-            container_name: "hello-world-nginx"
-            image: "nginx"
+        nginx_temp_dir: "/tmp/ansible/minikube/nginx/"
+        nginx_home_file: "index.html"
+        nginx_app_source_url: "https://raw.githubusercontent.com/amit-dali/minikube/master/nginx/{{ nginx_home_file }}"
+        nginx_content_volume: "/usr/share/nginx/html"
+        nginx_port_mapping: "8080:80"
+        nginx_port: "8080"
+        nginx_container_name: "hello-world-nginx-service"
+        nginx_image: "nginx"
+        nginx_url: "http://localhost:8080/"
+        tomcat_sample_webapp: "sample.war"
+        tomcat_sample_webapp_location: "https://tomcat.apache.org/tomcat-8.0-doc/appdev/sample/{{ tomcat_sample_webapp }}"
+        tomcat_local_webapps: "~/amdali/assignment1/webapps"
+        tomcat_port_mapping: "8090:8080"
+        tomcat_port: "8090"
+        tomcat_image: "tomcat"
+        tomcat_image_version: "8.0"
+        tomcat_container_name: "sample-webapp-tomcat-service"
+        tomcat_url: "http://localhost:8090/sample/"
+        tomcat_container_volume: "/usr/local/tomcat/webapps/"
+        k8s_namespace: "demo1"
   tasks:
-        - name: Create temp dir to hold {{ nginx.home_file }} file
+        - name: Create dirs to hold application on nginx and tomcat
           file:
-                path: "{{ nginx.temp_dir }}"
+                path: "{{ item }}"
                 state: directory
                 force: yes
                 mode: 0755
-        - name: Download {{ nginx.home_file }}
+          loop:
+                - "{{ nginx_temp_dir }}"
+                - "{{ tomcat_local_webapps }}"
+        - name: Download {{ nginx_home_file }} and {{ tomcat_sample_webapp_location }}
           get_url:
-                url: "{{ nginx.app_source_url }}"
-                dest: "{{ nginx.temp_dir }}/{{ nginx.home_file }}"
+                url: "{{ item.url }}"
+                dest: "{{ item.dest }}"
                 force: yes
                 mode: 0755
-        - name: Create nginx container with custom {{ nginx.home_file }}
-          docker_container:
-                name: {{ nginx.container_name }}
-                image: {{ nginx.image }}
-                command: nginx nginx-debug -g 'daemon off;'
-                detach: yes
-                become: yes
-                state: started
-                restart: yes
+          loop:
+                - { url: "{{ nginx_app_source_url }}", dest: "{{ nginx_temp_dir }}/{{ nginx_home_file }}" }
+                - { url: "{{ tomcat_sample_webapp_location }}", dest: "{{ tomcat_local_webapps }}"}
+ #       - name: Create nginx container with custom {{ nginx_home_file }}
+ #         docker_container:
+ #               name: "{{ nginx_container_name }}"
+ #               image: "{{ nginx_image }}"
+ #               command: nginx -g 'daemon off;'
+ #               debug: yes
+ #               detach: yes
+ #               state: started
+ #               restart: yes
+ #               published_ports:
+ #                   - "{{ nginx_port_mapping }}"
+ #               volumes:
+ #                   - "{{ nginx_temp_dir }}:{{ nginx_content_volume }}:ro"  
+ #       - name: Create tomcat container with deployed {{ tomcat_sample_webapp }}
+ #         docker_container:
+ #               name: "{{ tomcat_container_name }}"
+ #               image: "{{ tomcat_image }}:{{ tomcat_image_version }}"
+ #               debug: yes
+ #               detach: yes
+ #               state: started
+ #               restart: yes
+ #               published_ports:
+ #                   - "{{ tomcat_port_mapping }}"
+ #               volumes:
+ #                   - "{{ tomcat_local_webapps }}:{{ tomcat_container_volume }}:rw"
+ #       - name: Check that can connect to a nginx and it returns a status 200
+ #         uri:
+ #               url: "{{ item.url }}"
+ #         register: "{{ item.register }}"
+ #         loop:
+ #           - { url: "{{ nginx_url }}", register: "nginx_home_page" }
+ #       - debug:
+ #           msg: "Respone from nginx {{ nginx_home_page }}"
+        - name: Create a k8s namespace {{ k8s_namespace }}
+          k8s:
+            name: "{{ k8s_namespace }}"
+            api_version: v1
+            kind: Namespace
+            state: present
+        - name: Create a Service nginx from an inline definition
+          k8s:
+            state: present
+            definition:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: "{{ nginx_container_name }}"
+                labels:
+                    app: "{{ nginx_container_name }}" 
+                namespace: "{{ k8s_namespace }}"
+              spec:
+                selector:
+                    name: nginx
+                type: NodePort
                 ports:
-                    - "{{ nginx.port_mapping }}"
-                volumes:
-                    - "{{ nginx.temp_dir }}:{{ nginx.content_volume }}:ro"
+                - protocol: TCP
+                  targetPort: {{ nginx_port }}
+                  name: "port-{{ nginx_port }}-tcp"
+                  port: {{ nginx_port }}
+                  nodePort: 32751
+        - name: Create a Service tomcat from an inline definition
+          k8s:
+            state: present
+            definition:
+              apiVersion: v1
+              kind: Service
+              metadata:
+                name: "{{ tomcat_container_name }}"
+                labels:
+                    app: "{{ tomcat_container_name }}"
+                namespace: "{{ k8s_namespace }}"
+              spec:
+                selector:
+                    name: tomcat
+                type: NodePort
+                ports:
+                - protocol: TCP
+                  targetPort: {{ tomcat_port }}
+                  name: "port-{{ nginx_port }}-tcp"
+                  port: {{ tomcat_port }}
+                  nodePort: 32752       
