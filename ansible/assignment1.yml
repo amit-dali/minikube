@@ -113,4 +113,9 @@
             - "{{ deployment_dir }}nginx.yaml"
             - "{{ service_dir }}nginx.yaml"
             - "{{ service_dir }}tomcat.yaml"
+        - name: Verify the deployed nginx-service URL
+          command: echo "nginx-service url=" & minikube service nginx-service -n demo1 --url
+        - name: Verify the deployed tomcat-service URL
+          command: echo "tomcat-service url=" & minikube service tomcat-service -n demo1 --url
+         
   
