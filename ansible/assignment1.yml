@@ -79,10 +79,10 @@
           register: "{{ item.register }}"
           loop:
             - { url: "{{ nginx_url }}", register: "nginx_home_page" }           
-        - name: create a docker image from the container
-          command: | 
-                docker commit {{ nginx_container_name }} amdali/{{ nginx_container_name }}
-                docker commit {{ tomcat_container_name }} amdali/{{ tomcat_container_name }}
+        - name: create a docker image from the nginx container
+          command: docker commit "{{ nginx_container_name }}" "amdali/{{ nginx_container_name }}"
+        - name: create a docker image from the tomcat container
+          command: docker commit "{{ tomcat_container_name }}" "amdali/{{ tomcat_container_name }}"
         - name: Stop docker containers
           docker_container:
             name: mycontainer
