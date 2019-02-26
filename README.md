@@ -42,7 +42,7 @@ Step [Optional, if you already have minikube and kubectl]
 (2) execute shell script minikube_setup.sh from minikube/setup. Might need to give execute permission before.
    --> bash minikube_setup.sh
    
-Step (2) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
+Step (3) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
    --> bash setup.sh
 
 # Extra Task:
@@ -58,3 +58,21 @@ Step (2) excute. This takes care whole implementation of Main task. You can read
    - terraform 0.11.11
    - unzip
    - Required firewall/security group changes
+
+Step (1) After login to VM/EC2. do switch user using
+   --> sudo -i 
+
+Step [Optional, if you already have terraform] 
+(2) execute shell script terraform.sh from minikube/setup/. Might need to give execute permission to terraform.sh.
+   --> bash terraform.sh
+   
+Step (3) execute shell script deploy.sh from minikube/terraform/scripts/. Might need to give execute permission to deploy.sh. This is to deploy the AWS resources using terraform. Here, I tried to use changes from Main Tasks as part of User Data of EC2. User data execution might not work 100%,as due to time limit not able to troubleshoot the issues in the cloud-init logs.
+   --> bash deploy.sh
+   
+Step (4) Login in to EC2 lauanched as part ofr Step 3. and execute 
+   --> curl -v www.google.com
+   
+Step (5) execute shell script destroy.sh from minikube/terraform/scripts/. Might need to give execute permission to destroy.sh. This is to destroy the AWS resources using terraform.
+   --> bash destroy.sh
+ 
+ Thank you..!
