@@ -17,8 +17,8 @@ Extra Task:
 TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day)
 _________________________________________________________________________________________________________________
 
-Main Task :
-# Prerequisites:
+# Main Task :
+   # Prerequisites:
    - ubuntu OS VM *
       I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
    - docker
@@ -44,8 +44,8 @@ Step [Optional, if you already have minikube and kubectl]
 Step (2) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
    --> bash setup.sh
 
-Extra Task:
-# Prerequisites:
+# Extra Task:
+   # Prerequisites:
    - ubuntu OS VM
       I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
    - Internet connectivity
