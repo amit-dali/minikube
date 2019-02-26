@@ -12,6 +12,7 @@ resource "aws_autoscaling_group" "minikube-asg" {
   launch_configuration = "${aws_launch_configuration.minikube-lc.name}"
   tag {
     key                 = "Name"
+    propagate_at_launch = true
     value               = "minikube-asg"
   }
 }
@@ -20,7 +21,6 @@ resource "aws_launch_configuration" "minikube-lc" {
   name          = "minikube-lc"
   image_id      = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "${var.instance_type}"
-
   security_groups = ["${aws_security_group.default.id}"]
   user_data       = "${file("startup.sh")}"
   key_name        = "${var.key_name}"
