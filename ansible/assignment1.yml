@@ -85,14 +85,14 @@
           command: docker commit "{{ tomcat_container_name }}" "amdali/{{ tomcat_container_name }}"
         - name: Stop docker containers
           docker_container:
-            name: mycontainer
+            name: "{{ item }}"
             state: stopped
           loop:
             - "{{ nginx_container_name }}"
             - "{{ tomcat_container_name }}"
         - name: Remove docker containers
           docker_container:
-            name: mycontainer
+            name: "{{ item }}"
             state: absent
           loop:
             - "{{ nginx_container_name }}"
