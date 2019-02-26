@@ -22,7 +22,7 @@ resource "aws_launch_configuration" "minikube-lc" {
   instance_type = "${var.instance_type}"
 
   security_groups = ["${aws_security_group.default.id}"]
-  user_data       = "${file("userdata.sh")}"
+  user_data       = "${file("startup.sh")}"
   key_name        = "${var.key_name}"
 }
 
