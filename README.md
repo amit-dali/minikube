@@ -16,3 +16,17 @@ Extra Task:
 
 TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day)
 _________________________________________________________________________________________________________________
+
+Main Task :
+1) Prerequisites:
+   - ubuntu OS VM
+      I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
+   - docker
+   - minikube 
+   - kubectl 
+   - Internet connectivity
+   - compliance checks off
+   - whitelisted some of the urls
+   - proxy settings in respective commands, if there is use of proxy server
+
+Step (1) execute bash shell script minikube_setup.sh from minikube/setup
