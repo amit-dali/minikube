@@ -32,11 +32,25 @@ Main Task :
    - openshift python module
    - python-pip
    - Has required iam role and policy for VM/EC2
-   - Execution as root use (sudo -i)
+   - Execution as root user (sudo -i) *
+
+Step (1) After login to VM/EC2. do switch user using
+   --> sudo -i 
 
 Step [Optional, if you already have minikube and kubectl] 
-(1) execute shell script minikube_setup.sh from minikube/setup. Might need to give execute permission before.
+(2) execute shell script minikube_setup.sh from minikube/setup. Might need to give execute permission before.
    --> bash minikube_setup.sh
    
 Step (2) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
    --> bash setup.sh
+
+Extra Task:
+# Prerequisites:
+   - ubuntu OS VM
+      I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
+   - Internet connectivity
+   - compliance checks off
+   - whitelisted some of the urls
+   - proxy settings in respective commands, if there is use of proxy server
+   - Has required iam role and policy for VM/EC2 *
+   - Execution as root user (sudo -i)
