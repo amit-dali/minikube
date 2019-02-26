@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: backbase
+  namespace: demo1
   labels:
     name: nginx-deployment
 spec:
