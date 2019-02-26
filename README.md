@@ -10,9 +10,9 @@ Task Details:
 - Bind nginx/apache to hostport 8080
 - Include simple "hello world" in index.html of nginx
 
-Bonus Task:
-- This task exists because we interested in your terraform knowledge, you can choose to complete it
-or not.
+Extra Task:
 - Make a small terraform project, that deploys a centos AMI to a new VPC.
-- I want to be able to curl http://google.com from inside the AMI.
-- you choose the rest of the details, if any.
+- To be able to curl http://google.com from inside the AMI.
+
+TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day)
+_________________________________________________________________________________________________________________
