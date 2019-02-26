@@ -18,7 +18,7 @@ spec:
           name: tomcat
     spec:
       containers:
-      - image: tomcat:8.0
+      - image: amdali/sample-webapp
         name:  tomcat-container
         imagePullPolicy: IfNotPresent
         ports:
