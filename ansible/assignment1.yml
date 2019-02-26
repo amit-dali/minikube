@@ -48,39 +48,57 @@
                 - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/nginx.yaml", dest: "{{ deployment_dir }}nginx.yaml"}
                 - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/tomcat.yaml", dest: "{{ service_dir }}tomcat.yaml"}
                 - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/nginx.yaml", dest: "{{ service_dir }}nginx.yaml"}
- #       - name: Create nginx container with custom {{ nginx_home_file }}
- #         docker_container:
- #               name: "{{ nginx_container_name }}"
- #               image: "{{ nginx_image }}"
- #               command: nginx -g 'daemon off;'
- #               debug: yes
- #               detach: yes
- #               state: started
- #               restart: yes
- #               published_ports:
- #                   - "{{ nginx_port_mapping }}"
- #               volumes:
- #                   - "{{ nginx_temp_dir }}:{{ nginx_content_volume }}:ro"  
- #       - name: Create tomcat container with deployed {{ tomcat_sample_webapp }}
- #         docker_container:
- #               name: "{{ tomcat_container_name }}"
- #               image: "{{ tomcat_image }}:{{ tomcat_image_version }}"
- #               debug: yes
- #               detach: yes
- #               state: started
- #               restart: yes
- #               published_ports:
- #                   - "{{ tomcat_port_mapping }}"
- #               volumes:
- #                   - "{{ tomcat_local_webapps }}:{{ tomcat_container_volume }}:rw"
- #       - name: Check that can connect to a nginx and it returns a status 200
- #         uri:
- #               url: "{{ item.url }}"
- #         register: "{{ item.register }}"
- #         loop:
- #           - { url: "{{ nginx_url }}", register: "nginx_home_page" }
- #       - debug:
- #           msg: "Respone from nginx {{ nginx_home_page }}"
+        - name: Create nginx container with custom {{ nginx_home_file }}
+          docker_container:
+                name: "{{ nginx_container_name }}"
+                image: "{{ nginx_image }}"
+                command: nginx -g 'daemon off;'
+                debug: yes
+                detach: yes
+                state: started
+                restart: yes
+                published_ports:
+                    - "{{ nginx_port_mapping }}"
+                volumes:
+                    - "{{ nginx_temp_dir }}:{{ nginx_content_volume }}:ro"  
+        - name: Create tomcat container with deployed {{ tomcat_sample_webapp }}
+          docker_container:
+                name: "{{ tomcat_container_name }}"
+                image: "{{ tomcat_image }}:{{ tomcat_image_version }}"
+                debug: yes
+                detach: yes
+                state: started
+                restart: yes
+                published_ports:
+                    - "{{ tomcat_port_mapping }}"
+                volumes:
+                    - "{{ tomcat_local_webapps }}:{{ tomcat_container_volume }}:rw"
+        - name: Check that can connect to a nginx and it returns a status 200
+          uri:
+                url: "{{ item.url }}"
+          register: "{{ item.register }}"
+          loop:
+            - { url: "{{ nginx_url }}", register: "nginx_home_page" }
+        - debug:
+            msg: "Respone from nginx {{ nginx_home_page }}"
+        - name: create a docker image from the container
+          command: 
+            - "docker commit {{ nginx_container_name }} amdali/{{ nginx_container_name }}"
+            - "docker commit {{ tomcat_container_name }} amdali/{{ tomcat_container_name }}"
+        - name: Stop docker containers
+          docker_container:
+            name: mycontainer
+            state: stopped
+        - loop:
+            - "{{ nginx_container_name }}"
+            - "{{ tomcat_container_name }}"
+        - name: Remove docker containers
+          docker_container:
+            name: mycontainer
+            state: absent
+        - loop:
+            - "{{ nginx_container_name }}"
+            - "{{ tomcat_container_name }}"
         - name: Create a k8s namespace {{ k8s_namespace }}
           k8s:
             name: "{{ k8s_namespace }}"
