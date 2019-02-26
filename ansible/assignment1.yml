@@ -78,10 +78,7 @@
                 url: "{{ item.url }}"
           register: "{{ item.register }}"
           loop:
-            - { url: "{{ nginx_url }}", register: "nginx_home_page" }
-        - debug:
-            msg: "Respone from nginx {{ nginx_home_page }}"
-            
+            - { url: "{{ nginx_url }}", register: "nginx_home_page" }           
         - name: create a docker image from the container
           command: | 
                 docker commit {{ nginx_container_name }} amdali/{{ nginx_container_name }}
