@@ -1,3 +1,4 @@
+#!/bin/sh
 mkdir -p ~/amdali/assignment1
 chmod 755 -R amdali
 cd amdali/assignment1
