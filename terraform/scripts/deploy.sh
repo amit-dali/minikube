@@ -10,4 +10,4 @@ curl -O https://raw.githubusercontent.com/amit-dali/minikube/master/terraform/as
 terraform -version
 terraform init
 terraform plan -refresh=true -var "key_name=${KEY_PAIR_NAME}"
-terraform apply -var "key_name=${KEY_PAIR_NAME}" -auto-appro
+terraform apply -var "key_name=${KEY_PAIR_NAME}" -auto-approve
