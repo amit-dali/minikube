@@ -16,7 +16,7 @@ Extra Task:
 - Make a small terraform project, that deploys a centos AMI to a new VPC.
 - To be able to curl http://google.com from inside the AMI.
 
-TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day)
+TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day), but works with default VPC.
 _________________________________________________________________________________________________________________
 
 # Main Task :
