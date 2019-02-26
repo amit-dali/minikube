@@ -1,4 +1,8 @@
 #!/bin/sh
+mkdir -p ~/amdali/assignment1
+chmod 755 -R amdali
+cd amdali/assignment1
+curl -O https://raw.githubusercontent.com/amit-dali/minikube/master/ansible/assignment1.yml && chmod 0755 assignment1.yml
 apt-get update
 apt-get install software-properties-common
 apt-add-repository --yes --update ppa:ansible/ansible
