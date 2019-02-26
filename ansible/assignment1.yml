@@ -23,6 +23,7 @@
         deployment_dir: "/tmp/deployment/"
         service_dir: "/tmp/service/"
         k8s_namespace: "demo1"
+        amdali_git_repo_http_url: "https://raw.githubusercontent.com/amit-dali/minikube/master/"
   tasks:
         - name: Create dirs to hold application on nginx and tomcat
           file:
@@ -44,10 +45,10 @@
           loop:
                 - { url: "{{ nginx_app_source_url }}", dest: "{{ nginx_temp_dir }}/{{ nginx_home_file }}" }
                 - { url: "{{ tomcat_sample_webapp_location }}", dest: "{{ tomcat_local_webapps }}"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/tomcat.yaml", dest: "{{ deployment_dir }}tomcat.yaml"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/nginx.yaml", dest: "{{ deployment_dir }}nginx.yaml"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/tomcat.yaml", dest: "{{ service_dir }}tomcat.yaml"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/nginx.yaml", dest: "{{ service_dir }}nginx.yaml"}
+                - { url: "{{ amdali_git_repo_http_url }}deployment/tomcat.yaml", dest: "{{ deployment_dir }}tomcat.yaml"}
+                - { url: "{{ amdali_git_repo_http_url }}deployment/nginx.yaml", dest: "{{ deployment_dir }}nginx.yaml"}
+                - { url: "{{ amdali_git_repo_http_url }}service/tomcat.yaml", dest: "{{ service_dir }}tomcat.yaml"}
+                - { url: "{{ amdali_git_repo_http_url }}service/nginx.yaml", dest: "{{ service_dir }}nginx.yaml"}
         - name: Create nginx container with custom {{ nginx_home_file }}
           docker_container:
                 name: "{{ nginx_container_name }}"
