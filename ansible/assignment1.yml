@@ -20,6 +20,8 @@
         tomcat_container_name: "sample-webapp"
         tomcat_url: "http://localhost:8090/sample/"
         tomcat_container_volume: "/usr/local/tomcat/webapps/"
+        deployment_dir: "/tmp/deployment/"
+        service_dir: "/tmp/service/"
         k8s_namespace: "demo1"
   tasks:
         - name: Create dirs to hold application on nginx and tomcat
@@ -31,6 +33,8 @@
           loop:
                 - "{{ nginx_temp_dir }}"
                 - "{{ tomcat_local_webapps }}"
+                - "{{ deployment_dir }}"
+                - "{{ service_dir }}"
         - name: Download {{ nginx_home_file }} and {{ tomcat_sample_webapp_location }}
           get_url:
                 url: "{{ item.url }}"
@@ -40,8 +44,10 @@
           loop:
                 - { url: "{{ nginx_app_source_url }}", dest: "{{ nginx_temp_dir }}/{{ nginx_home_file }}" }
                 - { url: "{{ tomcat_sample_webapp_location }}", dest: "{{ tomcat_local_webapps }}"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/tomcat.yaml", dest: "/tmp/tomcat.yaml"}
-                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/nginx.yaml", dest: "/tmp/nginx.yaml"}
+                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/tomcat.yaml", dest: "{{ deployment_dir }}tomcat.yaml"}
+                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/deployment/nginx.yaml", dest: "{{ deployment_dir }}nginx.yaml"}
+                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/tomcat.yaml", dest: "{{ service_dir }}tomcat.yaml"}
+                - { url: "https://raw.githubusercontent.com/amit-dali/minikube/master/service/nginx.yaml", dest: "{{ service_dir }}nginx.yaml"}
  #       - name: Create nginx container with custom {{ nginx_home_file }}
  #         docker_container:
  #               name: "{{ nginx_container_name }}"
@@ -86,8 +92,10 @@
             state: present
             src: "{{ item }}"
           loop:
-            - "/tmp/tomcat.yaml"
-            - "/tmp/nginx.yaml"
+            - "{{ deployment_dir }}tomcat.yaml"
+            - "{{ deployment_dir }}nginx.yaml"
+            - "{{ service_dir }}nginx.yaml"
+            - "{{ service_dir }}tomcat.yaml"
         - name: Create a Service nginx from an inline definition
           k8s:
             state: present
