@@ -18,7 +18,7 @@ TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real j
 _________________________________________________________________________________________________________________
 
 Main Task :
-1) Prerequisites:
+# Prerequisites:
    - ubuntu OS VM
       I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
    - docker
@@ -28,5 +28,14 @@ Main Task :
    - compliance checks off
    - whitelisted some of the urls
    - proxy settings in respective commands, if there is use of proxy server
+   - ansible-playbook 
+   - openshift python module
+   - python-pip
+   - Has required iam role and policy for VM/EC2
 
-Step (1) execute bash shell script minikube_setup.sh from minikube/setup
+Step [Optional, if you already have minikube and kubectl] 
+(1) execute bash shell script minikube_setup.sh from minikube/setup 
+   --> bash minikube_setup.sh
+   
+Step (2) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml
+   --> bash setup.sh
