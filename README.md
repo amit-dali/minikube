@@ -19,7 +19,7 @@ ________________________________________________________________________________
 
 Main Task :
 # Prerequisites:
-   - ubuntu OS VM
+   - ubuntu OS VM *
       I used ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20180912 (ami-00035f41c82244dab) on AWS VPC
    - docker
    - minikube 
