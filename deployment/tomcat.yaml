@@ -1,10 +1,10 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: tomcat-deployment
+  name:  sample-webapp
   namespace: demo1
   labels:
-    name: tomcat-deployment
+    name: sample-webapp
 spec:
   replicas: 1
   strategy:
@@ -14,13 +14,14 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-        labels: 
+        labels:
           name: tomcat
     spec:
       containers:
       - image: tomcat:8.0
-        name: sample-webapp-tomcat
+        name:  tomcat-container
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort:  8090
-          name:  port-8090-tcp
+          name:  tomcat-port
       restartPolicy: Always
