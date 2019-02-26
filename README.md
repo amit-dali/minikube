@@ -1,6 +1,8 @@
 # minikube
 Assignment 1
 
+Soultion URL: https://github.com/amit-dali/minikube
+
 Task Details:
 - Based on Minikube
 - Deploy tomcat v8 to minikube
