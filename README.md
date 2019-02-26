@@ -72,15 +72,15 @@ Step [Optional, if you already have terraform]
    --> bash terraform.sh
    
 Step
-(3) execute shell script deploy.sh from minikube/terraform/scripts/. Might need to give execute permission to deploy.sh. This is to deploy the AWS resources using terraform. Here, I tried to use changes from Main Tasks as part of User Data of EC2. User data execution might not work 100%,as due to time limit not able to troubleshoot the issues in the cloud-init logs.
-   --> bash deploy.sh
+(3) execute shell script deploy.sh from minikube/terraform/scripts/. Might need to give execute permission to deploy.sh. This is to deploy the AWS resources using terraform. Here, I tried to use changes from Main Tasks as part of User Data of EC2. User data execution might not work 100%,as due to time limit not able to troubleshoot the issues in the cloud-init logs. Pass keypair name only.
+   --> bash deploy.sh my_key_pair
    
 Step
 (4) Login in to EC2 lauanched as part ofr Step 3. and execute 
    --> curl -v www.google.com
    
 Step
-(5) execute shell script destroy.sh from minikube/terraform/scripts/. Might need to give execute permission to destroy.sh. This is to destroy the AWS resources using terraform.
-   --> bash destroy.sh
+(5) execute shell script destroy.sh from minikube/terraform/scripts/. Might need to give execute permission to destroy.sh. This is to destroy the AWS resources using terraform. Pass keypair name only.
+   --> bash destroy.sh my_key_pair
  
  Thank you..!
