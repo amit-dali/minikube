@@ -83,21 +83,21 @@
             msg: "Respone from nginx {{ nginx_home_page }}"
             
         - name: create a docker image from the container
-          command: 
-            - "docker commit {{ nginx_container_name }} amdali/{{ nginx_container_name }}"
-            - "docker commit {{ tomcat_container_name }} amdali/{{ tomcat_container_name }}"
+          command: | 
+                docker commit {{ nginx_container_name }} amdali/{{ nginx_container_name }}
+                docker commit {{ tomcat_container_name }} amdali/{{ tomcat_container_name }}
         - name: Stop docker containers
           docker_container:
             name: mycontainer
             state: stopped
-        - loop:
+          loop:
             - "{{ nginx_container_name }}"
             - "{{ tomcat_container_name }}"
         - name: Remove docker containers
           docker_container:
             name: mycontainer
             state: absent
-        - loop:
+          loop:
             - "{{ nginx_container_name }}"
             - "{{ tomcat_container_name }}"
         - name: Create a k8s namespace {{ k8s_namespace }}
@@ -115,45 +115,4 @@
             - "{{ deployment_dir }}nginx.yaml"
             - "{{ service_dir }}nginx.yaml"
             - "{{ service_dir }}tomcat.yaml"
-        - name: Create a Service nginx from an inline definition
-          k8s:
-            state: present
-            definition:
-              apiVersion: v1
-              kind: Service
-              metadata:
-                name: "{{ nginx_container_name }}"
-                labels:
-                    app: "{{ nginx_container_name }}" 
-                namespace: "{{ k8s_namespace }}"
-              spec:
-                selector:
-                    name: nginx
-                type: NodePort
-                ports:
-                - protocol: TCP
-                  targetPort: "{{ nginx_port }}"
-                  name: "port-{{ nginx_port }}-tcp"
-                  port: "{{ nginx_port }}"
-                  nodePort: 32751
-        - name: Create a Service tomcat from an inline definition
-          k8s:
-            state: present
-            definition:
-              apiVersion: v1
-              kind: Service
-              metadata:
-                name: "{{ tomcat_container_name }}"
-                labels:
-                    app: "{{ tomcat_container_name }}"
-                namespace: "{{ k8s_namespace }}"
-              spec:
-                selector:
-                    name: tomcat
-                type: NodePort
-                ports:
-                - protocol: TCP
-                  targetPort: "{{ tomcat_port }}"
-                  name: "port-{{ nginx_port }}-tcp"
-                  port: "{{ tomcat_port }}"
-                  nodePort: 32752       
+  
