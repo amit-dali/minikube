@@ -33,6 +33,7 @@ ________________________________________________________________________________
    - python-pip
    - Has required iam role and policy for VM/EC2
    - Execution as root user (sudo -i) *
+   - Required firewall/security group changes
 
 Step (1) After login to VM/EC2. do switch user using
    --> sudo -i 
@@ -54,3 +55,6 @@ Step (2) excute. This takes care whole implementation of Main task. You can read
    - proxy settings in respective commands, if there is use of proxy server
    - Has required iam role and policy for VM/EC2 *
    - Execution as root user (sudo -i)
+   - terraform 0.11.11
+   - unzip
+   - Required firewall/security group changes
