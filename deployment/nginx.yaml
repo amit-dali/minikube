@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: nginx-deployment
@@ -6,7 +6,7 @@ metadata:
   labels:
     name: nginx-deployment
 spec:
-  replicas: 1
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,21 +19,8 @@ spec:
     spec:
       containers:
       - image: nginx
-        name: hello-world-nginx
-        command: ["nginx -g 'daemon off;'"]
-        volumeMounts:
-        - name: webcontent
-          mountPath: /usr/share/nginx/html
+        name:  nginx-container
         ports:
         - containerPort:  8080
-          name:  port-8080-tcp
-        livenessProbe:
-          httpGet:
-            path: /index.html
-            port: 8080
-          initialDelaySeconds: 30
-          timeoutSeconds: 1
-        volumeMounts:
-        - mountPath: /etc/nginx/ssl
-          name: webcontent
+          name:  nginx-web-port
       restartPolicy: Always
