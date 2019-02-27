@@ -1,8 +1,6 @@
 # minikube
 Assignment 1
 
-Soultion URL: https://github.com/amit-dali/minikube
-
 Task Details:
 - Based on Minikube
 - Deploy tomcat v8 to minikube
@@ -16,7 +14,7 @@ Extra Task:
 - Make a small terraform project, that deploys a centos AMI to a new VPC.
 - To be able to curl http://google.com from inside the AMI.
 
-TODO: new VPC (Reason: Considering this to complete within 48 hrs, but in real just 10 hrs. during working day), but works with default VPC.
+TODO: new VPC
 _________________________________________________________________________________________________________________
 
 # Main Task :
