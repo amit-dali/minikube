@@ -44,7 +44,7 @@ Step [Optional, if you already have minikube and kubectl]
    --> bash minikube_setup.sh
    
 Step 
-(3) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main login is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
+(3) excute. This takes care whole implementation of Main task. You can read setup.sh, which has steps for same. Main logic is in minikube/ansible/assignment1.yml. setup.sh file is in minikube/setup/. Might need to give execute permission before.
    --> bash setup.sh
 
 # Extra Task:
